@@ -1,0 +1,15 @@
+{
+  "name": "2D Truss Deflection PROTO",
+  "type": "Product",
+  "description":"Finite Element Assignment - 1",
+  "require": {
+    "markrogoyski/math-php": "*",
+    "bramus/router": "1.0"
+  }, 
+  "authors": [
+    {
+      "name": "Tarun Kumar Singhal",
+      "email": "tarun.singhal@mail.utoronto.ca"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+<?php
+
+//include head scripts
+require_once 'views/header.phtml';
+
+//include sidebar
+require_once 'views/sidebar.phtml';
+
+//include top bar
+require_once 'views/topbar.phtml';
+
+//include requested page
+require_once 'views/' . $this->module . '.phtml';
+
+//include footer
+require_once 'views/footer.phtml';
+
+
+?>
