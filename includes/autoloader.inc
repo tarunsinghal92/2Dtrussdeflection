@@ -1,8 +1,5 @@
 <?php
 
-//session session_start
-session_start();
-
 //config variables
 require_once __DIR__ . '/config.inc';
 
@@ -21,6 +18,6 @@ foreach(glob(__DIR__ . "/../controller/*.php") as $file){
 
 //get from vendor folder
 require_once(__DIR__ . '/../vendor/autoload.php');
- 
+
 
 ?>
