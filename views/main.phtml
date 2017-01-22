@@ -4,10 +4,10 @@
 require_once 'views/header.phtml';
 
 ?>
-<canvas id="myCanvas" width="1000" height="800"></canvas>
+<canvas id="myCanvas" width="10000" height="8000"></canvas>
 <script>
   $( document ).ready(function() {
-      draw_truss('<?php echo json_encode($this->results->nodes); ?>', '<?php echo json_encode($this->results->elements); ?>', .3); 
+      draw_truss('<?php echo json_encode($this->results->nodes); ?>', '<?php echo json_encode($this->results->elements); ?>', .3);
   });
 </script>
 <?php

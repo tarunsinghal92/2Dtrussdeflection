@@ -61,13 +61,37 @@ class TrussModel extends Common
 
         // for elements
         foreach ($this->elements as $key => $element) {
-
             $n1 = intval(@current(explode('-', $key)));
             $n2 = intval(@end(explode('-', $key)));
             $this->elements[$key]['mposx1'] = $element['posx1'] + ($this->displacements[2 * ($n1 - 1) + 0] * MAGNIFICATION_FACTOR);
             $this->elements[$key]['mposy1'] = $element['posy1'] + ($this->displacements[2 * ($n1 - 1) + 1] * MAGNIFICATION_FACTOR);
             $this->elements[$key]['mposx2'] = $element['posx2'] + ($this->displacements[2 * ($n2 - 1) + 0] * MAGNIFICATION_FACTOR);
             $this->elements[$key]['mposy2'] = $element['posy2'] + ($this->displacements[2 * ($n2 - 1) + 1] * MAGNIFICATION_FACTOR);
+        }
+
+        //MAGNIFICATION_FACTOR FOR OVERALL STRUCTURE
+        foreach ($this->nodes as $key => $node) {
+            $this->nodes[$key]['posx'] = $node['posx'] * GENERAL_MAGNIFICATION_FACTOR;
+            $this->nodes[$key]['posy'] = $node['posy'] * GENERAL_MAGNIFICATION_FACTOR;
+            $this->nodes[$key]['mposx'] = $node['mposx'] * GENERAL_MAGNIFICATION_FACTOR;
+            $this->nodes[$key]['mposy'] = $node['mposy'] * GENERAL_MAGNIFICATION_FACTOR;
+        }
+        foreach ($this->elements as $key => $element) {
+            $this->elements[$key]['posx1'] = $element['posx1'] * GENERAL_MAGNIFICATION_FACTOR;
+            $this->elements[$key]['posy1'] = $element['posy1'] * GENERAL_MAGNIFICATION_FACTOR;
+            $this->elements[$key]['mposx1'] = $element['mposx1'] * GENERAL_MAGNIFICATION_FACTOR;
+            $this->elements[$key]['mposy1'] = $element['mposy1'] * GENERAL_MAGNIFICATION_FACTOR;
+            $this->elements[$key]['posx2'] = $element['posx2'] * GENERAL_MAGNIFICATION_FACTOR;
+            $this->elements[$key]['posy2'] = $element['posy2'] * GENERAL_MAGNIFICATION_FACTOR;
+            $this->elements[$key]['mposx2'] = $element['mposx2'] * GENERAL_MAGNIFICATION_FACTOR;
+            $this->elements[$key]['mposy2'] = $element['mposy2'] * GENERAL_MAGNIFICATION_FACTOR;
+        }
+
+        // check compression or tension
+        foreach ($this->elements as $key => $element) {
+            $orig = $this->get_length($element, LENGTH_FACTOR, 'pos');
+            $mod = $this->get_length($element, LENGTH_FACTOR, 'mpos');
+            $this->elements[$key]['type'] = $orig - $mod > 0 ? 'compression': 'tension';
         }
     }
 
@@ -133,7 +157,7 @@ class TrussModel extends Common
         // var
         $n1 = intval(@current(explode('-', $member)));
         $n2 = intval(@end(explode('-', $member)));
-        $length = $this->get_length($element, 12);
+        $length = $this->get_length($element, LENGTH_FACTOR);
         $theta = $this->get_theta($element);
         $EA_L = (E * A )/ $length;
 
@@ -178,9 +202,9 @@ class TrussModel extends Common
         echo '</pre>';
     }
 
-    public function get_length($element, $factor = 1)
+    public function get_length($element, $factor = 1, $pre = 'pos')
     {
-        return $factor * sqrt((($element['posy2'] - $element['posy1']) * ($element['posy2'] - $element['posy1']) + ($element['posx2'] - $element['posx1']) * ($element['posx2'] - $element['posx1'])));
+        return $factor * sqrt((($element[$pre.'y2'] - $element[$pre.'y1']) * ($element[$pre.'y2'] - $element[$pre.'y1']) + ($element[$pre.'x2'] - $element[$pre.'x1']) * ($element[$pre.'x2'] - $element[$pre.'x1'])));
     }
 
     public function get_theta($element)

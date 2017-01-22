@@ -20,6 +20,16 @@ define('A', '10');
 /**
  * magnifying factor of displacements
  */
-define('MAGNIFICATION_FACTOR', 20);
+define('MAGNIFICATION_FACTOR', 20.0);
+
+/**
+ * length amplification factor for unit conversion
+ */
+define('LENGTH_FACTOR', 1.0);
+
+/**
+ * magnifying factor in general
+ */
+define('GENERAL_MAGNIFICATION_FACTOR', 50.0);
 
 ?>
