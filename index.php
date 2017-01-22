@@ -14,10 +14,10 @@
 
     // Static route: /
     $router->get('/(\w*)', function () {
-        // // call the tempate
-        // $modelling = new ModellingController($project_id, $module, $step);
-        // $modelling->show_template();
-        echo "TKS";
+
+        // call the tempate
+        $main = new MainController();
+        $main->show_template();
     });
 
     // Thunderbirds are go!

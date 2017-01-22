@@ -3,17 +3,16 @@
 //include head scripts
 require_once 'views/header.phtml';
 
-//include sidebar
-require_once 'views/sidebar.phtml';
-
-//include top bar
-require_once 'views/topbar.phtml';
-
-//include requested page
-require_once 'views/' . $this->module . '.phtml';
+?>
+<canvas id="myCanvas" width="1000" height="800"></canvas>
+<script>
+  $( document ).ready(function() {
+      draw_truss('<?php echo json_encode($this->results->nodes); ?>', '<?php echo json_encode($this->results->elements); ?>', .3); 
+  });
+</script>
+<?php
 
 //include footer
 require_once 'views/footer.phtml';
-
 
 ?>
