@@ -60,7 +60,8 @@ node1_constraints :
 node2_constraints : 
 
 e.g. 1-2	0,0	2,0	fixed,free	free,free 
-It means Node1 @ (0,0) is fixed in X-Dir and free in Y-Dir & Node2 @ (2,0) is free in both Dir for Element '1-2'
+It means Node1 @ (0,0) is fixed in X-Dir and free in Y-Dir & 
+Node2 @ (2,0) is free in both Dir for Element '1-2'
 ```
 ### Format for forces.txt
 ```
