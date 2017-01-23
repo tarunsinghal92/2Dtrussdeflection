@@ -79,6 +79,8 @@ Run following command in `terminal`.
 
 >$ ./run.sh
 
+Then navigate to http://localhost:8100 to view the results.
+
 ## License
 
 This project is licensed under `MIT` License. See LICENSE for full license text.
