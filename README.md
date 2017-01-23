@@ -24,6 +24,7 @@ Please follow the following steps in order to start the project.
 ```php
 /**
  * Young modulus 
+ */
 define('E', '30000');
 
 /**
@@ -58,7 +59,8 @@ node2             : value of force in Y-Dir(KN)
 node1_constraints :
 node2_constraints : 
 
-e.g. 1-2	0,0	2,0	fixed,free	free,free (meaning Node1 @ (0,0) is fixed in X-Dir and free in Y-Dir & Node2 is free in both Dir for Element '1-2')
+e.g. 1-2	0,0	2,0	fixed,free	free,free 
+It means Node1 @ (0,0) is fixed in X-Dir and free in Y-Dir & Node2 @ (2,0) is free in both Dir for Element '1-2'
 ```
 ### Format for forces.txt
 ```
@@ -66,7 +68,8 @@ node : # of node
 x    : value of force in X-Dir(KN)
 y    : value of force in Y-Dir(KN) 
 
-e.g. 1  100 200 (meaning 100KN in X & 200KN in Y on Node #1)
+e.g. 1  100 200 
+It means a force of 100KN in X-Dir & 200KN in Y-Dir is applied on Node #1
 ```
 
 ## Running the Program
