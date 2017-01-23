@@ -1,6 +1,6 @@
 # 2D Truss Deflection Calculation
 
-Deflection in 2D truss 
+This is simple program which can be used to find deflection in 2D trusses. 
 
 ## Dependency
 
@@ -56,8 +56,8 @@ define('GENERAL_MAGNIFICATION_FACTOR', 50.0);
 element           : # of element
 node1             : value of force in X-Dir(KN)
 node2             : value of force in Y-Dir(KN) 
-node1_constraints :
-node2_constraints : 
+node1_constraints : DOF free/fixed @ Node1 in X-Dir,Y-Dir
+node2_constraints : DOF free/fixed @ Node2 in X-Dir,Y-Dir
 
 e.g. 1-2	0,0	2,0	fixed,free	free,free 
 It means Node1 @ (0,0) is fixed in X-Dir and free in Y-Dir & 
