@@ -21,11 +21,10 @@ Please follow the following steps in order to start the project.
 
 3. Modify the values of young modulus, etc in config.inc file which is present in includes folder.
 
+```php
 /**
- * Young modulus
- * assumed same to all members
- */
-define('E', '30000');
+ * Young modulus 
+> define('E', '30000');
 
 /**
  * Area of cross-section for each member
@@ -47,7 +46,7 @@ define('LENGTH_FACTOR', 1.0);
  * magnifying factor in general
  */
 define('GENERAL_MAGNIFICATION_FACTOR', 50.0);
-
+```
 4. Modifiy the forces and Member details in data/members.txt and data/forces.txt file.
 
 ### Format for members.txt
