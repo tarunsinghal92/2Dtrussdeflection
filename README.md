@@ -24,7 +24,7 @@ Please follow the following steps in order to start the project.
 ```php
 /**
  * Young modulus 
-> define('E', '30000');
+define('E', '30000');
 
 /**
  * Area of cross-section for each member
@@ -51,11 +51,7 @@ define('GENERAL_MAGNIFICATION_FACTOR', 50.0);
 
 ### Format for members.txt
 
-element 	node1	node2	node1_constraints	node2_constraints
-1-2	0,0	2,0	fixed,fixed	free,free
-2-3	2,0	4,0	free,free	free,free
-3-4	4,0	6,0	free,free	free,free
-
+```
 element           : # of element
 node1             : value of force in X-Dir(KN)
 node2             : value of force in Y-Dir(KN) 
@@ -63,15 +59,15 @@ node1_constraints :
 node2_constraints : 
 
 e.g. 1-2	0,0	2,0	fixed,free	free,free (meaning Node1 @ (0,0) is fixed in X-Dir and free in Y-Dir & Node2 is free in both Dir for Element '1-2')
-
+```
 ### Format for forces.txt
- 
+```
 node : # of node
 x    : value of force in X-Dir(KN)
 y    : value of force in Y-Dir(KN) 
 
 e.g. 1  100 200 (meaning 100KN in X & 200KN in Y on Node #1)
-
+```
 
 ## Running the Program
 
