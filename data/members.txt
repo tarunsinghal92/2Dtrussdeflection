@@ -1,20 +1,84 @@
-element 	node1	node2	node1_constraints	node2_constraints
-1-2	0,0	2,0	fixed,fixed	free,free
-2-3	2,0	4,0	free,free	free,free
-3-4	4,0	6,0	free,free	free,free
-4-5	6,0	8,0	free,free	free,free
-5-6	8,0	10,0	free,free	free,free
-7-8	0,2	2,2	free,free	free,free
-8-9	2,2	4,2	free,free	free,fixed
-9-10	4,2	6,2	free,fixed	free,free
-10-11	6,2	8,2	free,free	free,free
-1-7	0,0	0,2	fixed,fixed	free,free
-1-8	0,0	2,2	fixed,fixed	free,free
-2-8	2,0	2,2	free,free	free,free
-3-8	4,0	2,2	free,free	free,free
-3-9	4,0	4,2	free,free	free,fixed
-3-10	4,0	6,2	free,free	free,free
-4-10	6,0	6,2	free,free	free,free
-4-11	6,0	8,2	free,free	free,free
-5-11	8,0	8,2	free,free	free,free
-6-11	10,0	8,2	free,free	free,free
+member	node1	node2	node1_C	node2_C	area
+1-2	0,314	60.8,295	fixed,fixed	free,free	669
+2-3	60.8,295	114.8,279	free,free	free,free	664
+3-4	114.8,279	168.8,266	free,free	free,free	650
+4-5	168.8,266	223.9,254	free,free	free,free	649
+5-6	223.9,254	279,241	free,free	free,free	574
+6-7	279,241	334.1,231	free,free	free,free	572
+7-8	334.1,231	389.3,223	free,free	free,free	437
+8-9	389.3,223	447.8,214	free,free	free,free	435
+9-10	447.8,214	504,206	free,free	free,free	136
+10-11	504,206	559.1,199	free,free	free,free	136
+15-16	0,0	57.4,28	fixed,fixed	free,free	841
+16-17	57.4,28	112.5,53	free,free	free,free	767
+17-18	112.5,53	166.5,72	free,free	free,free	767
+18-19	166.5,72	222.8,90	free,free	free,free	728
+19-20	222.8,90	276.8,99	free,free	free,free	728
+20-21	276.8,99	333,104	free,free	free,free	708
+21-22	333,104	388.1,104	free,free	free,free	602
+22-23	388.1,104	446.6,105	free,free	free,free	602
+23-24	446.6,105	502.9,103	free,free	free,free	456
+24-25	502.9,103	556.9,104	free,free	free,free	456
+17-35	112.5,53	114.8,182	free,free	free,free	196
+35-3	114.8,182	114.8,279	free,free	free,free	184
+19-37	222.8,90	222.8,179	free,free	free,free	259
+37-5	222.8,179	223.9,254	free,free	free,free	259
+21-39	333,104	334.1,173	free,free	free,free	283
+39-7	334.1,173	334.1,231	free,free	free,free	283
+23-41	446.6,105	446.6,163	free,free	free,free	241
+41-9	446.6,163	447.8,214	free,free	free,free	241
+25-11	556.9,104	559.1,199	free,free	free,free	249
+9-42	447.8,214	502.9,156	free,free	free,free	315
+42-25	502.9,156	556.9,104	free,free	free,free	300
+7-40	334.1,231	388.1,168	free,free	free,free	345
+40-23	388.1,168	446.6,105	free,free	free,free	330
+5-38	223.9,254	277.9,176	free,free	free,free	300
+38-21	277.9,176	333,104	free,free	free,free	300
+3-36	114.8,279	166.5,180	free,free	free,free	180
+36-19	166.5,180	222.8,90	free,free	free,free	180
+1-46	0,314	30.4,248	fixed,fixed	free,free	205
+46-33	30.4,248	58.5,182	free,free	free,free	205
+33-17	58.5,182	112.5,53	free,free	free,free	174
+24-42	502.9,103	502.9,156	free,free	free,free	60
+42-10	502.9,156	504,206	free,free	free,free	60
+22-40	388.1,104	388.1,168	free,free	free,free	60
+40-8	388.1,168	389.3,223	free,free	free,free	60
+20-38	276.8,99	277.9,176	free,free	free,free	117
+38-6	277.9,176	279,241	free,free	free,free	117
+18-36	166.5,72	166.5,180	free,free	free,free	89
+36-4	166.5,180	168.8,266	free,free	free,free	117
+16-34	57.4,28	57.4,52	free,free	free,free	93
+34-33	57.4,52	58.5,182	free,free	free,free	93
+33-2	58.5,182	60.8,295	free,free	free,free	117
+23-42	446.6,105	502.9,156	free,free	free,free	64
+21-40	333,104	388.1,168	free,free	free,free	64
+19-38	222.8,90	277.9,176	free,free	free,free	64
+17-36	112.5,53	166.5,180	free,free	free,free	64
+15-33	0,0	58.5,182	fixed,fixed	free,free	64
+30-46	0,247	30.4,248	fixed,fixed	free,free	42
+31-33	0,183	58.5,182	fixed,fixed	free,free	42
+35-36	114.8,182	166.5,180	free,free	free,free	42
+37-38	222.8,179	277.9,176	free,free	free,free	42
+39-40	334.1,173	388.1,168	free,free	free,free	42
+41-42	446.6,163	502.9,156	free,free	free,free	42
+32-34	0,51	57.4,52	fixed,fixed	free,free	42
+11-12	559.1,199	616.5,207	free,free	free,free	136
+12-13	616.5,207	673.9,215	free,free	free,free	136
+13-14	673.9,215	731.3,223	free,free	free,free	191
+25-26	556.9,104	564.8,103	free,free	free,free	220
+26-27	564.8,103	614.3,104	free,free	free,free	220
+27-28	614.3,104	670.5,103	free,free	free,free	220
+28-29	670.5,103	727.9,103	free,free	free,free	186
+28-44	670.5,103	671.6,153	free,free	free,free	119
+44-13	671.6,153	673.9,215	free,free	free,free	119
+11-43	559.1,199	615.4,148	free,free	free,free	204
+43-28	615.4,148	670.5,103	free,free	free,free	191
+13-45	673.9,215	730.1,157	free,free	free,free	118
+26-11	564.8,103	559.1,199	free,free	free,free	50
+27-43	614.3,104	615.4,148	free,free	free,free	42
+43-12	615.4,148	616.5,207	free,free	free,free	42
+29-45	727.9,103	730.1,157	free,free	free,free	42
+45-14	730.1,157	731.3,223	free,free	free,free	42
+26-43	564.8,103	615.4,148	free,free	free,free	49
+28-45	670.5,103	730.1,157	free,free	free,free	53
+43-44	615.4,148	671.6,153	free,free	free,free	42

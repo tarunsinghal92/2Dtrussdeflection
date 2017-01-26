@@ -1,0 +1,12 @@
+node	x	y	xtype	ytype
+1	0	0	fixed	fixed
+2	0	0	free	free
+3	0	0	free	free
+4	0	0	free	free
+5	0	0	free	free
+6	0	100	free	free
+7	0	0	free	free
+8	0	0	free	free
+9	0	0	free	fixed
+10	0	0	free	free
+11	100	0	free	free

@@ -24,31 +24,67 @@ class TrussModel extends Common
     private $stiffness_matrix = [];
     private $modified_stiffness_matrix = [];
     private $displacements = [];
+    public $legend = [];
+    public $max = ['member_force' => 0, 'displacement' => 0];
+
+    public function __construct()
+    {
+        $this->legend = [
+          ['startval' => -1000000,'endval' => -300000,'color' => $this->blend_hex('ff0000', '00ff00', 0.0)],
+          ['startval' => -300000,'endval' => -100000,'color' => $this->blend_hex('ff0000', '00ff00', 0.08)],
+          ['startval' => -100000,'endval' => -50000,'color' => $this->blend_hex('ff0000', '00ff00', 0.16)],
+          ['startval' => -50000,'endval' => -10000,'color' => $this->blend_hex('ff0000', '00ff00', 0.24)],
+          ['startval' => -10000,'endval' => -5000,'color' => $this->blend_hex('ff0000', '00ff00', 0.32)],
+          ['startval' => -5000,'endval' => -0.1,'color' => $this->blend_hex('ff0000', '00ff00', 0.40)],
+          ['startval' => -0.1,'endval' => 0.1,'color' => $this->blend_hex('ff0000', '00ff00', 0.48)],
+          ['startval' => 0.1,'endval' => 5000,'color' => $this->blend_hex('ff0000', '00ff00', 0.57)],
+          ['startval' => 5000,'endval' => 10000,'color' => $this->blend_hex('ff0000', '00ff00', 0.65)],
+          ['startval' => 10000,'endval' => 50000,'color' => $this->blend_hex('ff0000', '00ff00', 0.74)],
+          ['startval' => 50000,'endval' => 100000,'color' => $this->blend_hex('ff0000', '00ff00', 0.82)],
+          ['startval' => 100000,'endval' => 300000,'color' => $this->blend_hex('ff0000', '00ff00', 0.9)],
+          ['startval' => 300000,'endval' => 1000000,'color' => $this->blend_hex('ff0000', '00ff00', 1)],
+        ];
+    }
 
     public function run()
     {
 
-        //get nodes and elements
+        // get nodes and elements
         $this->get_geometry();
 
-        //get force vector
+        // get force vector
         $this->get_forces();
 
-        //get the stiffness matrix
+        // get the stiffness matrix
         $this->get_stiffness_matrix();
 
-        //calculate displacement
+        // calculate displacement
         $this->get_displacements();
 
-        //get modified nodes / elements
+        // get modified nodes / elements
         $this->get_modified_geometry();
 
-        //debug
+        // debug
         // $this->dump($this->nodes);
+        // $this->dump(min($this->displacements) * 25.4);
         // $this->dump($this->elements);
-        // $this->show($this->modified_stiffness_matrix);
-        // $this->dump($this->displacements);
+        // $this->dump($this->max);
         // die;
+    }
+
+    private function blend_hex($from, $to, $pos = 0.5)
+    {
+        // 1. Grab RGB from each colour
+        list($fr, $fg, $fb) = sscanf($from, '%2x%2x%2x');
+        list($tr, $tg, $tb) = sscanf($to, '%2x%2x%2x');
+
+        // 2. Calculate colour based on frational position
+        $r = (int) ($fr - (($fr - $tr) * $pos));
+        $g = (int) ($fg - (($fg - $tg) * $pos));
+        $b = (int) ($fb - (($fb - $tb) * $pos));
+
+        // 3. Format to 6-char HEX colour string
+        return sprintf('#%02x%02x%02x', $r, $g, $b);
     }
 
     public function get_modified_geometry()
@@ -88,16 +124,32 @@ class TrussModel extends Common
         }
 
         // check compression or tension
+        $legend = [];
         foreach ($this->elements as $key => $element) {
             $orig = $this->get_length($element, LENGTH_FACTOR, 'pos');
             $mod = $this->get_length($element, LENGTH_FACTOR, 'mpos');
+            $this->elements[$key]['forces'] = intval($element['area'] * E * (($mod - $orig) / $orig));
+            $this->elements[$key]['stress'] = intval(E * (($mod - $orig) / $orig));
             $this->elements[$key]['type'] = $orig - $mod > 0 ? 'compression': 'tension';
+            $this->elements[$key]['color'] = $this->get_color($this->elements[$key]['forces']);
+            $legend[] = $this->elements[$key]['forces'];
+            $this->max['member_force'] = intval(max($this->max['member_force'], abs($this->elements[$key]['forces']))) . ' lbs';
         }
+    }
+
+    private function get_color($val)
+    {
+        foreach ($this->legend as $key => $v) {
+            if($val > $v['startval'] && $val < $v['endval']){
+                return $v['color'];
+            }
+        }
+        return '#ffffff';
     }
 
     public function get_displacements()
     {
-        //solve f = kx
+        //solve k^-1*f = x
         $Ainv  = $this->modified_stiffness_matrix->inverse();
         $d = $Ainv->vectorMultiply($this->forces);
 
@@ -118,6 +170,9 @@ class TrussModel extends Common
                 $scnt++;
             }
         }
+
+        //store max displacement
+        $this->max['displacement'] = intval(min($this->displacements)) . ' in';
     }
 
     public function get_stiffness_matrix()
@@ -159,7 +214,7 @@ class TrussModel extends Common
         $n2 = intval(@end(explode('-', $member)));
         $length = $this->get_length($element, LENGTH_FACTOR);
         $theta = $this->get_theta($element);
-        $EA_L = (E * A )/ $length;
+        $EA_L = (E * $element['area'] )/ $length;
 
         //dof
         $dof1x = 2 * ($n1 - 1) + 0;
@@ -168,28 +223,28 @@ class TrussModel extends Common
         $dof2y = 2 * ($n2 - 1) + 1;
 
         //1st row
-        $stiffness_matrix[$dof1x][$dof1x] += round($EA_L * cos($theta) * cos($theta), 5);
-        $stiffness_matrix[$dof1y][$dof1x] += round($EA_L * cos($theta) * sin($theta), 5);
-        $stiffness_matrix[$dof2x][$dof1x] += round($EA_L * -cos($theta) * cos($theta), 5);
-        $stiffness_matrix[$dof2y][$dof1x] += round($EA_L * -cos($theta) * sin($theta), 5);
+        $stiffness_matrix[$dof1x][$dof1x] += ($EA_L * cos($theta) * cos($theta));
+        $stiffness_matrix[$dof1y][$dof1x] += ($EA_L * cos($theta) * sin($theta));
+        $stiffness_matrix[$dof2x][$dof1x] += ($EA_L * -cos($theta) * cos($theta));
+        $stiffness_matrix[$dof2y][$dof1x] += ($EA_L * -cos($theta) * sin($theta));
 
         //2nd row
-        $stiffness_matrix[$dof1x][$dof1y] += round($EA_L * cos($theta) * sin($theta), 5);
-        $stiffness_matrix[$dof1y][$dof1y] += round($EA_L * sin($theta) * sin($theta), 5);
-        $stiffness_matrix[$dof2x][$dof1y] += round($EA_L * -cos($theta) * sin($theta), 5);
-        $stiffness_matrix[$dof2y][$dof1y] += round($EA_L * -sin($theta) * sin($theta), 5);
+        $stiffness_matrix[$dof1x][$dof1y] += ($EA_L * cos($theta) * sin($theta));
+        $stiffness_matrix[$dof1y][$dof1y] += ($EA_L * sin($theta) * sin($theta));
+        $stiffness_matrix[$dof2x][$dof1y] += ($EA_L * -cos($theta) * sin($theta));
+        $stiffness_matrix[$dof2y][$dof1y] += ($EA_L * -sin($theta) * sin($theta));
 
         //3rd row
-        $stiffness_matrix[$dof1x][$dof2x] += round($EA_L * -cos($theta) * cos($theta), 5);
-        $stiffness_matrix[$dof1y][$dof2x] += round($EA_L * -cos($theta) * sin($theta), 5);
-        $stiffness_matrix[$dof2x][$dof2x] += round($EA_L * cos($theta) * cos($theta), 5);
-        $stiffness_matrix[$dof2y][$dof2x] += round($EA_L * cos($theta) * sin($theta), 5);
+        $stiffness_matrix[$dof1x][$dof2x] += ($EA_L * -cos($theta) * cos($theta));
+        $stiffness_matrix[$dof1y][$dof2x] += ($EA_L * -cos($theta) * sin($theta));
+        $stiffness_matrix[$dof2x][$dof2x] += ($EA_L * cos($theta) * cos($theta));
+        $stiffness_matrix[$dof2y][$dof2x] += ($EA_L * cos($theta) * sin($theta));
 
         //4th row
-        $stiffness_matrix[$dof1x][$dof2y] += round($EA_L * -cos($theta) * sin($theta), 5);
-        $stiffness_matrix[$dof1y][$dof2y] += round($EA_L * -sin($theta) * sin($theta), 5);
-        $stiffness_matrix[$dof2x][$dof2y] += round($EA_L * cos($theta) * sin($theta), 5);
-        $stiffness_matrix[$dof2y][$dof2y] += round($EA_L * sin($theta) * sin($theta), 5);
+        $stiffness_matrix[$dof1x][$dof2y] += ($EA_L * -cos($theta) * sin($theta));
+        $stiffness_matrix[$dof1y][$dof2y] += ($EA_L * -sin($theta) * sin($theta));
+        $stiffness_matrix[$dof2x][$dof2y] += ($EA_L * cos($theta) * sin($theta));
+        $stiffness_matrix[$dof2y][$dof2y] += ($EA_L * sin($theta) * sin($theta));
 
         //return
         return $stiffness_matrix;
@@ -256,7 +311,8 @@ class TrussModel extends Common
                   'posx1'=> floatval(@current(explode(',', $line[1]))),
                   'posy1'=> floatval(@end(explode(',', $line[1]))),
                   'posx2'=> floatval(@current(explode(',', $line[2]))),
-                  'posy2'=> floatval(@end(explode(',', $line[2])))
+                  'posy2'=> floatval(@end(explode(',', $line[2]))),
+                  'area'=> floatval($line[5])
                 ];
             }
             $i++;
